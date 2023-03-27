@@ -25,7 +25,3 @@ To run tests (will work only after normalizer run)
     They can easily write a massive amount of time-indexed records (like events),
     but they're slow in complicated queries than we want to read and aggregate our data.
     If we want fast performance in both reading and writing, we need to set up something like HDFS and MapReduce.
-    Not sure about principles, but I think these are important:
-    - It's important to write fast, you can wait or be inaccurate in reads
-    - Fresh data is more important than old. You can thin out old data.
-    - Use queue services like Kafka or Rabbit can save you a lot of time.
