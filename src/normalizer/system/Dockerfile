@@ -1,0 +1,13 @@
+FROM python:3.11.2-slim-bullseye
+
+WORKDIR /src
+
+RUN apt-get update
+RUN apt-get install -y libpq-dev gcc
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+
+CMD python3 app.py

@@ -1,0 +1,69 @@
+version: "3"
+
+services:
+  wwc_db:
+    image: postgres:15.2-alpine
+    container_name: wwc_db
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/wwc_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_pa55
+      - POSTGRES_DB=users
+    # logging:
+    #   driver: syslog
+    #   options:
+    #     tag: wwc_db
+
+  hb_db:
+    image: postgres:15.2-alpine
+    container_name: hb_db
+    restart: unless-stopped
+    ports:
+      - 5433:5432
+    volumes:
+      - ./data/hb_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_pa55
+      - POSTGRES_DB=users
+    # logging:
+    #   driver: syslog
+    #   options:
+    #     tag: hb_db
+
+  normalizer:
+    build:
+      context: ./src/normalizer
+      dockerfile: system/Dockerfile
+    container_name: normalizer
+    restart: unless-stopped
+    volumes:
+      - ./original_data:/data
+      - ./configs/normalizer.yml:/src/system/config.yml
+      - ./src/normalizer:/src
+    environment:
+      - PYTHONUNBUFFERED=TRUE
+    # logging:
+    #   driver: syslog
+    #   options:
+    #     tag: normalizer
+
+  tests:
+    build:
+      context: ./src/normalizer
+      dockerfile: system/Dockerfile.tests
+    container_name: tests
+    restart: unless-stopped
+    volumes:
+      - ./configs/normalizer.yml:/src/system/config.yml
+      - ./src/normalizer:/src
+    environment:
+      - PYTHONUNBUFFERED=TRUE
+    # logging:
+    #   driver: syslog
+    #   options:
+    #     tag: normalizer

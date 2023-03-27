@@ -1,0 +1,22 @@
+type: "wwc" # hb or wwc
+
+data_folders:
+  wwc: "/data/wwc/"
+  hb: "/data/hb/"
+
+dbs:
+  wwc:
+    host: "wwc_db"
+    port: 5432
+    name: "users"
+    login: "db_user"
+    password: "db_pa55"
+  hb:
+    host: "hb_db"
+    port: 5432
+    name: "users"
+    login: "db_user"
+    password: "db_pa55"
+
+tests:
+  country: "US"
